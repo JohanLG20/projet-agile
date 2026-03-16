@@ -29,20 +29,20 @@ class Quizz
         'q10' => null,
     ];
     protected array $reponses = [
-        'q1' => 4,
-        'q2' => 2,
-        'q3' => 3,
-        'q4' => 3,
-        'q5' => 4,
-        'q6' => 2,
-        'q7' => 2,
-        'q8' => 2,
-        'q9' => 3,
-        'q10' => 2,
+        'q1' => 'd',
+        'q2' => 'b',
+        'q3' => 'c',
+        'q4' => 'c',
+        'q5' => 'd',
+        'q6' => 'b',
+        'q7' => 'b',
+        'q8' => 'b',
+        'q9' => 'c',
+        'q10' => 'b',
     ];
-    public int $score = 0;
+    protected int $score = 0;
 
-    protected $time;
+    protected int $time = 0;
 
 
     public function __construct()
@@ -63,7 +63,7 @@ class Quizz
             $this->input['q9'] = htmlspecialchars($_POST['q9'] ?? null);
             $this->input['q10'] = htmlspecialchars($_POST['q10'] ?? null);
 
-            // $this->time = htmlspecialchars($_POST['time'] ?? null);
+            $this->time = intval(htmlspecialchars($_POST['time'] ?? null));
 
 
             if (!$this->nom) {
@@ -88,21 +88,28 @@ class Quizz
             foreach ($this->input as $key => $value) {
                 if (!$value) {
                     $this->errors[$key] = "Requis";
-                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit un int entre 1 et 4
+                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
                     $this->errors[$key] = "Valeur incorrecte";
                 } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
                     $this->score + 1;
                 }
             }
-
-            // if (!$this->time){
-            //     $this->errors['time'] = "Temps introuvable";
-            // } else if ($this->time > 1000){
-            //     $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
-            // } else if ($this->time < 0){
-            //     $this->errors['time'] = "Vous allez trop vite";
-            // }
+            if (!$this->time) {
+                $this->errors['time'] = "Temps introuvable";
+            } else if ($this->time > 1000) {
+                $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
+            } else if ($this->time < 0) {
+                $this->errors['time'] = "Vous allez trop vite";
+            }
         }
+
+        // Debug
+        // var_dump($this->errors);
+        // echo '<br>';
+        // var_dump($this->input['q1']);
+        // echo '<br>';
+        // var_dump($this->time);
+
         // Si $_POST est vide (début) ou qu'il y a des erreurs, affiche la page du questionnaire
         if (empty($_POST) || !empty($this->errors)) {
             require VIEW . '/questionnaire_view.php';
@@ -115,7 +122,7 @@ class Quizz
                 'prenom' => $this->prenom,
                 'nom' => $this->nom,
                 'resultat' => $this->score,
-                'temps' => 12,
+                'temps' => $this->time,
             ];
             var_dump($results);
             DBResults::addResult($results);
