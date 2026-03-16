@@ -12,6 +12,9 @@ if (isset($_POST['connexion'])) {
         $errors['connexion'] = $e->getMessage();
     }
 }
+else{
+    unset($_SESSION['connexion']);
+}
 
 
 
