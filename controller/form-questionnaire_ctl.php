@@ -116,7 +116,7 @@ class Quizz
         }
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD table `RESULTS` et affiche la page de validation
         else {
-            // require MODEL . '/table_result.php'; // envoie le produit sur la bdd
+            require MODEL . '/table_result.php'; // envoie le produit sur la bdd
             // Créée tableau results
             $results = [
                 'prenom' => $this->prenom,
