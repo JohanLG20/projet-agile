@@ -54,3 +54,9 @@ button {
 button:hover {
   background-color: #284c72;
 }
+
+#chrono{
+color:red;
+font-weight:bold;
+font-size:22px;
+}
