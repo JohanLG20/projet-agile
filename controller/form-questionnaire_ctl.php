@@ -6,9 +6,15 @@
 
 class Quizz
 {
+    /* 
+     * Si des erreurs sont détectées, $errors sera rempli de façon :
+     * ['q1' => 'message d'erreur',
+     * 'q2' => 'message d'erreur',]
+     */
     public array $errors = [];
-    protected string $nom = '';
-    protected string $prenom = '';
+
+    protected $nom = '';
+    protected $prenom = '';
 
     protected array $input = [
         'q1' => null,
@@ -34,7 +40,7 @@ class Quizz
         'q9' => 3,
         'q10' => 2,
     ];
-    protected int $score;
+    public int $score;
 
 
     public function __construct()
@@ -71,21 +77,15 @@ class Quizz
                 $this->errors['prenom'] = "Moins de 50 caractères";
             }
 
-            if (!$this->input['q1']) {
-                $this->errors['price'] = "Requis";
-            } else if (preg_match('/^[1-4]$/', $this->input['q1']) == 0) { // Teste que la valeur soit un int entre 1 et 4
-                $this->errors['price'] = "Valeur incorrecte";
-            } else if ($this->input['q1'] === $this->reponses['q1']) {
-                $this->score + 1;
-            }
-
-            
+            /*
+             * Boucle foreach qui teste chaque réponse utilisateur et la compare aux bonnes réponses
+             */
             foreach ($this->input as $key => $value) {
                 if (!$value) {
-                    $this->errors['price'] = "Requis";
+                    $this->errors[$key] = "Requis";
                 } else if (preg_match('/^[1-4]$/', $value) == 0) { // Teste que la valeur soit un int entre 1 et 4
-                    $this->errors['price'] = "Valeur incorrecte";
-                } else if ($value === $this->reponses[$key]) {
+                    $this->errors[$key] = "Valeur incorrecte";
+                } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
                     $this->score + 1;
                 }
             }
