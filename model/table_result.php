@@ -22,4 +22,17 @@ class DBResults
             throw new PDOException($e->getMessage());
         }
     }
+
+        public static function getAllResults(array $results)
+    {
+        try {
+            $db = DBConnexion::getInstance()->getConnexion();
+            $query = $db->prepare("SELECT * FROM RESULTS");
+            $query->execute();
+
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new PDOException($e->getMessage());
+        }
+    }
 }
