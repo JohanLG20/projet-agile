@@ -49,31 +49,32 @@ class Quizz
         if (!empty($_POST)) {
             $this->nom = htmlspecialchars($_POST['nom']) ?? null;
             $this->prenom = htmlspecialchars($_POST['prenom']) ?? null;
-            $this->input['q1'] = htmlspecialchars($_POST['q1']) ?? null;
-            $this->input['q2'] = htmlspecialchars($_POST['q2']) ?? null;
-            $this->input['q3'] = htmlspecialchars($_POST['q3']) ?? null;
-            $this->input['q4'] = htmlspecialchars($_POST['q4']) ?? null;
-            $this->input['q5'] = htmlspecialchars($_POST['q5']) ?? null;
-            $this->input['q6'] = htmlspecialchars($_POST['q6']) ?? null;
-            $this->input['q7'] = htmlspecialchars($_POST['q7']) ?? null;
-            $this->input['q8'] = htmlspecialchars($_POST['q8']) ?? null;
-            $this->input['q9'] = htmlspecialchars($_POST['q9']) ?? null;
-            $this->input['q10'] = htmlspecialchars($_POST['q10']) ?? null;
+
+            $this->input['q1'] = htmlspecialchars($_POST['q1'] ?? null);
+            $this->input['q2'] = htmlspecialchars($_POST['q2'] ?? null);
+            $this->input['q3'] = htmlspecialchars($_POST['q3'] ?? null);
+            $this->input['q4'] = htmlspecialchars($_POST['q4'] ?? null);
+            $this->input['q5'] = htmlspecialchars($_POST['q5'] ?? null);
+            $this->input['q6'] = htmlspecialchars($_POST['q6'] ?? null);
+            $this->input['q7'] = htmlspecialchars($_POST['q7'] ?? null);
+            $this->input['q8'] = htmlspecialchars($_POST['q8'] ?? null);
+            $this->input['q9'] = htmlspecialchars($_POST['q9'] ?? null);
+            $this->input['q10'] = htmlspecialchars($_POST['q10'] ?? null);
 
 
-            if (!$this->input['nom']) {
+            if (!$this->nom) {
                 $this->errors['nom'] = "Requis";
-            } else  if (strlen(trim($this->input['nom'])) < 3) {
+            } else  if (strlen(trim($this->nom)) < 3) {
                 $this->errors['nom'] = "Au moins 3 caractères";
-            } else if (strlen(trim($this->input['nom'])) > 50) {
+            } else if (strlen(trim($this->nom)) > 50) {
                 $this->errors['nom'] = "Moins de 50 caractères";
             }
 
-            if (!$this->input['prenom']) {
+            if (!$this->prenom) {
                 $this->errors['prenom'] = "Requis";
-            } else  if (strlen(trim($this->input['prenom'])) < 3) {
+            } else  if (strlen(trim($this->prenom)) < 3) {
                 $this->errors['prenom'] = "Au moins 3 caractères";
-            } else if (strlen(trim($this->input['prenom'])) > 50) {
+            } else if (strlen(trim($this->prenom)) > 50) {
                 $this->errors['prenom'] = "Moins de 50 caractères";
             }
 
@@ -97,7 +98,7 @@ class Quizz
         }
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD et affiche la page de validation
         else {
-            // require MODEL . '/table_result.php'; // envoie le produit sur la bdd
+            require MODEL . '/table_result.php'; // envoie le produit sur la bdd
             require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
         }
     }

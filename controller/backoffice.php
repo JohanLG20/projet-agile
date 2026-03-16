@@ -8,7 +8,7 @@ $results['resultat'] = 5;
 $results['temps'] = 6;
 
 try{
-    DBResults::addResult($results);
+   $results = DBResults::getAllResults();
 }
 
 catch(PDOException $e){
