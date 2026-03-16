@@ -63,7 +63,7 @@ class Quizz
             $this->input['q9'] = htmlspecialchars($_POST['q9'] ?? null);
             $this->input['q10'] = htmlspecialchars($_POST['q10'] ?? null);
 
-            $this->time = htmlspecialchars($_POST['time'] ?? null);
+            // $this->time = htmlspecialchars($_POST['time'] ?? null);
 
 
             if (!$this->nom) {
@@ -97,7 +97,7 @@ class Quizz
 
             if (!$this->time){
                 $this->errors['time'] = "Temps introuvable";
-            } else if ($this->time > 1000000000){
+            } else if ($this->time > 1000){
                 $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
             }
         }
@@ -109,12 +109,12 @@ class Quizz
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD et affiche la page de validation
         else {
             require MODEL . '/table_result.php'; // envoie le produit sur la bdd
-            //cre tableau result
+            //créer tableau result
             $results = [
                 'prenom' => $this->prenom,
                 'nom' => $this->nom,
-                'results' => $this->score,
-                'temps' => $this->time
+                'resultat' => $this->score,
+                'temps' => 12,
             ];
             DBResults::addResult($results);
             require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
