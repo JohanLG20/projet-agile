@@ -54,3 +54,8 @@ button {
 button:hover {
   background-color: #284c72;
 }
+
+table, th, td {
+  border: 1px solid;
+  padding: 4px;
+}
