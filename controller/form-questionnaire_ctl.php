@@ -91,7 +91,7 @@ class Quizz
                 } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
                     $this->errors[$key] = "Valeur incorrecte";
                 } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
-                    $this->score + 1;
+                    $this->score += 1;
                 }
             }
             if (!$this->time) {
@@ -116,7 +116,7 @@ class Quizz
         }
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD table `RESULTS` et affiche la page de validation
         else {
-            require MODEL . '/table_result.php'; // envoie le produit sur la bdd
+            // require MODEL . '/table_result.php'; // envoie le produit sur la bdd
             // Créée tableau results
             $results = [
                 'prenom' => $this->prenom,
