@@ -7,8 +7,8 @@
 class Quizz
 {
     public array $errors = [];
-protected string $nom = '';
-protected string $prenom = '';
+    protected string $nom = '';
+    protected string $prenom = '';
 
     protected array $input = [
         'q1' => null,
@@ -78,16 +78,27 @@ protected string $prenom = '';
             } else if ($this->input['q1'] === $this->reponses['q1']) {
                 $this->score + 1;
             }
+
+            
+            foreach ($this->input as $key => $value) {
+                if (!$value) {
+                    $this->errors['price'] = "Requis";
+                } else if (preg_match('/^[1-4]$/', $value) == 0) { // Teste que la valeur soit un int entre 1 et 4
+                    $this->errors['price'] = "Valeur incorrecte";
+                } else if ($value === $this->reponses[$key]) {
+                    $this->score + 1;
+                }
+            }
         }
 
         // Si $_POST est vide (début) ou qu'il y a des erreurs, affiche la page du questionnaire
         if (empty($_POST) || !empty($this->errors)) {
-            require ROOT . '/vue/questionnaire_view.php';
+            require VIEW . '/questionnaire_view.php';
         }
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD et affiche la page de validation
         else {
-            require ROOT . '/model/table_result.php'; // envoie le produit sur la bdd
-            require ROOT . '/vue/questionnaire_fini_vue.php'; // affiche page succès
+            require MODEL . '/table_result.php'; // envoie le produit sur la bdd
+            require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
         }
     }
 }
