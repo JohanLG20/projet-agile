@@ -37,7 +37,7 @@ class Quizz
         'q6' => 'b',
         'q7' => 'b',
         'q8' => 'b',
-        'q9' => 'c',
+        'q9' => 'd',
         'q10' => 'b',
     ];
     protected int $score = 0;
@@ -124,7 +124,6 @@ class Quizz
                 'resultat' => $this->score,
                 'temps' => $this->time,
             ];
-            var_dump($results);
             DBResults::addResult($results);
             require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
         }
