@@ -42,13 +42,15 @@ class Quizz
     ];
     public int $score;
 
+    protected $time;
+
 
     public function __construct()
     {
         // Contrôle de qualité (trouve les erreurs et ajoute les messages dans le tableau $errors)
         if (!empty($_POST)) {
-            $this->nom = htmlspecialchars($_POST['nom']) ?? null;
-            $this->prenom = htmlspecialchars($_POST['prenom']) ?? null;
+            $this->nom = htmlspecialchars($_POST['nom'] ?? null);
+            $this->prenom = htmlspecialchars($_POST['prenom'] ?? null);
 
             $this->input['q1'] = htmlspecialchars($_POST['q1'] ?? null);
             $this->input['q2'] = htmlspecialchars($_POST['q2'] ?? null);
@@ -61,6 +63,8 @@ class Quizz
             $this->input['q9'] = htmlspecialchars($_POST['q9'] ?? null);
             $this->input['q10'] = htmlspecialchars($_POST['q10'] ?? null);
 
+            $this->time = htmlspecialchars($_POST['time'] ?? null);
+
 
             if (!$this->nom) {
                 $this->errors['nom'] = "Requis";
@@ -72,7 +76,7 @@ class Quizz
 
             if (!$this->prenom) {
                 $this->errors['prenom'] = "Requis";
-            } else  if (strlen(trim($this->prenom)) < 3) {
+            } else if (strlen(trim($this->prenom)) < 3) {
                 $this->errors['prenom'] = "Au moins 3 caractères";
             } else if (strlen(trim($this->prenom)) > 50) {
                 $this->errors['prenom'] = "Moins de 50 caractères";
@@ -90,6 +94,12 @@ class Quizz
                     $this->score + 1;
                 }
             }
+
+            if (!$this->time){
+                $this->errors['time'] = "Temps introuvable";
+            } else if ($this->time > 1000000000){
+                $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
+            }
         }
 
         // Si $_POST est vide (début) ou qu'il y a des erreurs, affiche la page du questionnaire
@@ -99,6 +109,14 @@ class Quizz
         // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD et affiche la page de validation
         else {
             require MODEL . '/table_result.php'; // envoie le produit sur la bdd
+            //cre tableau result
+            $results = [
+                'prenom' => $this->prenom,
+                'nom' => $this->nom,
+                'results' => $this->score,
+                'temps' => $this->time
+            ];
+            DBResults::addResult($results);
             require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
         }
     }
