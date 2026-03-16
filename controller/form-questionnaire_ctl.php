@@ -37,7 +37,7 @@ class Quizz
         'q6' => 'b',
         'q7' => 'b',
         'q8' => 'b',
-        'q9' => 'd',
+        'q9' => 'c',
         'q10' => 'b',
     ];
     protected int $score = 0;
