@@ -99,6 +99,8 @@ class Quizz
                 $this->errors['time'] = "Temps introuvable";
             } else if ($this->time > 1000){
                 $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
+            } else if ($this->time < 0){
+                $this->errors['time'] = "Vous allez trop vite";
             }
         }
 
