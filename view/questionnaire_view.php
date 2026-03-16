@@ -12,7 +12,7 @@
     <h1>Quiz sur la sécurité</h1>
 
     <form action="index.php" method="post">
-
+        Temps écoulé : <span id="chrono">0</span> s
         <h2>Informations</h2>
         <div class="info">
 
@@ -84,13 +84,31 @@
         <input type="radio" name="q9" value="d">Vous la jetez à la poubelle.<br>
 
         <p>Question 10 : Pourquoi faut-il faire les mises à jour de son ordinateur ?</p>
-        <input type="radio" name="q10" value="e">Pour changer l’apparence du système.<br>
+        <input type="radio" name="q10" value="a">Pour changer l’apparence du système.<br>
         <input type="radio" name="q10" value="b">Pour corriger des failles de sécurité.<br>
         <input type="radio" name="q10" value="c">Pour ralentir l’ordinateur.<br>
         <input type="radio" name="q10" value="d">Pour supprimer des fichiers.<br>
 
+        <input type="hidden" name="time" id="time">
         <button type="submit">Envoyer</button>
     </form>
 </body>
+<script>
+    let debut = Date.now();
+
+    document.querySelector("form").addEventListener("submit", function() {
+
+        let fin = Date.now();
+        let timeLeft = Math.floor((fin - debut) / 1000);
+
+        document.getElementById("time").value = timeLeft
+    });
+
+    setInterval(function() {
+        let maintenant = Date.now();
+        let time = Math.floor((maintenant - debut) / 1000);
+        document.getElementById("chrono").textContent = time;
+    }, 1000);
+</script>
 
 </html>
