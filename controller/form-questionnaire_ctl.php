@@ -125,7 +125,7 @@ class Quizz
                 'temps' => $this->time,
             ];
             DBResults::addResult($results);
-            require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
+            require VIEW . '/questionnaire_fini_view.php'; // affiche page succès
         }
     }
 }
