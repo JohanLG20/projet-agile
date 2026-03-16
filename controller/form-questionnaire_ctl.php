@@ -40,7 +40,7 @@ class Quizz
         'q9' => 3,
         'q10' => 2,
     ];
-    public int $score;
+    public int $score = 0;
 
     protected $time;
 
@@ -88,36 +88,36 @@ class Quizz
             foreach ($this->input as $key => $value) {
                 if (!$value) {
                     $this->errors[$key] = "Requis";
-                } else if (preg_match('/^[1-4]$/', $value) == 0) { // Teste que la valeur soit un int entre 1 et 4
+                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit un int entre 1 et 4
                     $this->errors[$key] = "Valeur incorrecte";
                 } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
                     $this->score + 1;
                 }
             }
 
-            if (!$this->time){
-                $this->errors['time'] = "Temps introuvable";
-            } else if ($this->time > 1000){
-                $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
-            } else if ($this->time < 0){
-                $this->errors['time'] = "Vous allez trop vite";
-            }
+            // if (!$this->time){
+            //     $this->errors['time'] = "Temps introuvable";
+            // } else if ($this->time > 1000){
+            //     $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
+            // } else if ($this->time < 0){
+            //     $this->errors['time'] = "Vous allez trop vite";
+            // }
         }
-
         // Si $_POST est vide (début) ou qu'il y a des erreurs, affiche la page du questionnaire
         if (empty($_POST) || !empty($this->errors)) {
             require VIEW . '/questionnaire_view.php';
         }
-        // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD et affiche la page de validation
+        // Si le $_POST est rempli sans erreurs, envoie les résultats dans la BDD table `RESULTS` et affiche la page de validation
         else {
             require MODEL . '/table_result.php'; // envoie le produit sur la bdd
-            //créer tableau result
+            // Créée tableau results
             $results = [
                 'prenom' => $this->prenom,
                 'nom' => $this->nom,
                 'resultat' => $this->score,
                 'temps' => 12,
             ];
+            var_dump($results);
             DBResults::addResult($results);
             require VIEW . '/questionnaire_fini_vue.php'; // affiche page succès
         }
