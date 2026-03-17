@@ -68,16 +68,16 @@ class Quizz
 
             if (!$this->nom) {
                 $this->errors['nom'] = "Requis";
-            } else  if (strlen(trim($this->nom)) < 3) {
-                $this->errors['nom'] = "Au moins 3 caractères";
+            } else  if (strlen(trim($this->nom)) < 1) {
+                $this->errors['nom'] = "Au moins 1 caractères";
             } else if (strlen(trim($this->nom)) > 50) {
                 $this->errors['nom'] = "Moins de 50 caractères";
             }
 
             if (!$this->prenom) {
                 $this->errors['prenom'] = "Requis";
-            } else if (strlen(trim($this->prenom)) < 3) {
-                $this->errors['prenom'] = "Au moins 3 caractères";
+            } else if (strlen(trim($this->prenom)) < 1) {
+                $this->errors['prenom'] = "Au moins 1 caractères";
             } else if (strlen(trim($this->prenom)) > 50) {
                 $this->errors['prenom'] = "Moins de 50 caractères";
             }
