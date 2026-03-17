@@ -13,8 +13,6 @@ class Quizz
      */
     public array $errors = [];
 
-    public bool $questionnaireFinished = false;
-
     protected $nom = '';
     protected $prenom = '';
 
@@ -29,6 +27,7 @@ class Quizz
         'q8' => null,
         'q9' => null,
         'q10' => null,
+        'q11' => [],
     ];
     protected array $reponses = [
         'q1' => 'd',
@@ -41,34 +40,46 @@ class Quizz
         'q8' => 'b',
         'q9' => 'c',
         'q10' => 'b',
+        'q11' => ['a', 'b', 'd'],
     ];
     protected int $score = 0;
 
     protected int $time = 0;
 
-
-
+    protected bool $isFinished = false;
 
     public function __construct()
     {
-        // Contrôle de qualité (trouve les erreurs et ajoute les messages dans le tableau $errors)
+
+        /*
+         * Contrôle de qualité (trouve les erreurs et ajoute les messages dans le tableau $errors)
+         * Le nom des éléments du $_POST DOIT correspondre aux noms des propriétés respectives
+         */
         if (!empty($_POST)) {
-            $this->nom = htmlspecialchars($_POST['nom'] ?? null);
-            $this->prenom = htmlspecialchars($_POST['prenom'] ?? null);
+            foreach ($_POST as $key => $post_element) {
+                if (is_array($post_element)) {  // Regarde si l'élément est un tableau pour obtenir les input sur les questions à choix multiples
+                    foreach ($post_element as $value) {
+                        array_push($this->input[$key], htmlspecialchars($value));
+                    };
+                } else {
+                    switch ($key) {
+                        case 'time':
+                            $this->time = intval(htmlspecialchars($_POST['time']));
+                            break;
+                        case 'nom':
+                            $this->nom = htmlspecialchars($post_element);
+                            break;
+                        case 'prenom':
+                            $this->prenom = htmlspecialchars($post_element);
+                            break;
+                        default:
+                            $this->input[$key] = htmlspecialchars($post_element);
+                    }
+                }
+            }
 
-            $this->input['q1'] = htmlspecialchars($_POST['q1'] ?? null);
-            $this->input['q2'] = htmlspecialchars($_POST['q2'] ?? null);
-            $this->input['q3'] = htmlspecialchars($_POST['q3'] ?? null);
-            $this->input['q4'] = htmlspecialchars($_POST['q4'] ?? null);
-            $this->input['q5'] = htmlspecialchars($_POST['q5'] ?? null);
-            $this->input['q6'] = htmlspecialchars($_POST['q6'] ?? null);
-            $this->input['q7'] = htmlspecialchars($_POST['q7'] ?? null);
-            $this->input['q8'] = htmlspecialchars($_POST['q8'] ?? null);
-            $this->input['q9'] = htmlspecialchars($_POST['q9'] ?? null);
-            $this->input['q10'] = htmlspecialchars($_POST['q10'] ?? null);
-
-            $this->time = intval(htmlspecialchars($_POST['time'] ?? null));
-
+            echo var_dump($_POST['q11']) . '<br>';
+            var_dump($this->input);
 
             if (!$this->nom) {
                 $this->errors['nom'] = "Requis";
@@ -92,16 +103,33 @@ class Quizz
             foreach ($this->input as $key => $value) {
                 if (!$value) {
                     $this->errors[$key] = "Requis";
+                } else if (is_array($this->reponses[$key])) {
+                    if (is_string($value)) { // si il n'y a qu'une seule réponse dans la question à choix multiple
+                        foreach ($this->reponses[$key] as $reponse) {
+                            if ($value == $reponse) {
+                                $this->score += 1;
+                            };
+                        }
+                    } else {
+                        foreach ($value as $choice) {
+                            foreach ($this->reponses[$key] as $reponse) {
+                                if ($choice == $reponse) {
+                                    $this->score += 1;
+                                }
+                            }
+                        }
+                    }
                 } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
                     $this->errors[$key] = "Valeur incorrecte";
                 } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
                     $this->score += 1;
+                } else {   // Si la réponse est mauvaise, pénalise le score
+                    $this->score -= 1;
                 }
             }
+
             if (!$this->time) {
                 $this->errors['time'] = "Temps introuvable";
-            } else if ($this->time > 1000) {
-                $this->errors['time'] = "Vous ne devez pas prendre plus de 100 ans";
             } else if ($this->time < 0) {
                 $this->errors['time'] = "Vous allez trop vite";
             }
@@ -130,8 +158,8 @@ class Quizz
             ];
             DBResults::addResult($results);
 
-            $this->questionnaireFinished = true;
-            require VIEW . '/questionnaire_view.php'; // affiche page succès
+            $this->isFinished = true;
+            require VIEW . '/questionnaire_fini_view.php'; // affiche page succès
         }
     }
 }
