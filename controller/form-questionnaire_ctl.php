@@ -105,35 +105,27 @@ class Quizz
                 // Si l'utilisateur n'a pas coché de réponse
                 if (empty($value[0])) {
                     $this->errors[$key] = "Requis";
-                } 
+                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
+                    $this->errors[$key] = "Valeur incorrecte";
+                }
                 // Si la question correspondante a des réponses multiples
-                else if (is_array($this->reponses[$key])) {
-                    // si il n'y a qu'une seule réponse dans la question à choix multiple
-                    if (!isset($value[1])) { 
-                        foreach ($this->reponses[$key] as $reponse) {
-                            if ($value[0] == $reponse) {
-                                $this->score += 1;
-                            };
-                        }
-                    // Si il y a plusieurs réponses par l'utilisateur
-                    } else {
-                        foreach ($value as $choice) {
-                            foreach ($this->reponses[$key] as $reponse) {
-                                if ($choice == $reponse) {
-                                    $this->score += 1;
-                                }
+                else if (is_array($this->reponses[$key][0])) {
+                    foreach ($value[0] as $user_answer) {
+                        foreach ($this->reponses[$key][0] as $reponse) {
+                            if ($user_answer == $reponse) {
+                                // calcul score bonne réponse qcm
+                                $this->score += 0.33;
                             }
                         }
                     }
-                // Si la question correspondante a une réponse unique
-                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
-                    $this->errors[$key] = "Valeur incorrecte";
-                } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
+                } else if ($value[0] === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
                     $this->score += $this->reponses[$key][1];
                 } else {   // Si la réponse est mauvaise, pénalise le score
                     $this->score -= 1;
                 }
             }
+            // arrondit le score
+            $this->score = round($this->score);
 
             if (!$this->time) {
                 $this->errors['time'] = "Temps introuvable";
