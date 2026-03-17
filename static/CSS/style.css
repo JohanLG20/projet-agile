@@ -96,8 +96,13 @@ tr:hover {
   color: red;
 }
 
+.question {
+  padding: 0;
+  margin: 16px 0 8px;
+}
+
 .error {
   color: red;
   padding: 0;
-  margin: 0;
+  margin: 0 0 8px;
 }
