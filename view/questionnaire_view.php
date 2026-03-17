@@ -120,6 +120,9 @@
         <input type="radio" name="q10" value="d">Pour supprimer des fichiers.<br>
 
         <p>Question 11 : Pour protéger mes usages numériques pro/perso :</p>
+        <?php if (isset($this->errors['q11'])): ?>
+            <p class="error"><small><?= $this->errors['q11'] ?></small></p>
+        <?php endif; ?>
         <input type="radio" name="q11[]" value="a">J’utilise un stockage de données professionnelles distinct du stockage de données personnelles.<br>
         <input type="radio" name="q11[]" value="b">J’utilise ma connexion professionnelle uniquement pour mes besoins professionnels.<br>
         <input type="radio" name="q11[]" value="c">J’utilise mon matériel professionnel pour des besoins personnels.<br>
