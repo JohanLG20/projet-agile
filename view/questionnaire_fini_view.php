@@ -88,6 +88,12 @@
         <input type="radio" name="q10" value="b">Pour corriger des failles de sécurité.<br>
         <input type="radio" name="q10" value="c">Pour ralentir l’ordinateur.<br>
         <input type="radio" name="q10" value="d">Pour supprimer des fichiers.<br>
+
+                <p>Pour protéger mes usages numériques pro/perso :</p>
+        <input type="radio" name="q11[]" value="a">J’utilise un stockage de données professionnelles distinct du stockage de données personnelles.<br>
+        <input type="radio" name="q11[]" value="b">J’utilise ma connexion professionnelle uniquement pour mes besoins professionnels.<br>
+        <input type="radio" name="q11[]" value="c">J’utilise mon matériel professionnel pour des besoins personnels.<br>
+        <input type="radio" name="q11[]" value="d">J’effectue les mises à jour de mes systèmes très régulièrement.<br>
     </form>
 </body>
 </html>
