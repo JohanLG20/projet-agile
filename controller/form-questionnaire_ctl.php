@@ -34,7 +34,7 @@ class Quizz
         'q2' =>  ['b', 1],
         'q3' =>  ['c', 1],
         'q4' =>  ['c', 1],
-        'q5' =>  ['d', 1],
+        'q5' =>  ['d', -20],
         'q6' =>  ['b', 1],
         'q7' =>  ['b', 1],
         'q8' =>  ['b', 1],
@@ -114,6 +114,7 @@ class Quizz
                         foreach ($this->reponses[$key][0] as $reponse) {
                             if ($user_answer == $reponse) {
                                 // calcul score bonne réponse qcm
+                                // diviser les points du poids de la question par le nombre de bonnes réponses
                                 $this->score += 0.33;
                             }
                         }
