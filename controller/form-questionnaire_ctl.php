@@ -46,7 +46,7 @@ class Quizz
 
     protected int $time = 0;
 
-    protected bool $isFinished = false;
+    protected bool $questionnaireFinished = false;
 
     public function __construct()
     {
@@ -158,8 +158,8 @@ class Quizz
             ];
             DBResults::addResult($results);
 
-            $this->isFinished = true;
-            require VIEW . '/questionnaire_fini_view.php'; // affiche page succès
+            $this->questionnaireFinished = true;
+            require VIEW . '/questionnaire_view.php'; // affiche page succès
         }
     }
 }
