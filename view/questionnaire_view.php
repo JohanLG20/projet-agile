@@ -55,9 +55,9 @@
         </label>
 
         <label class="<?= $this->questionnaireFinished && $this->input['q1'] == 'b' ? 'incorrect' : '' ?>">
-                    <input type="radio" name="q1" value="b" <?= $this->input['q1'] == 'b' ? 'checked' : '' ?>>02101987<br>
+            <input type="radio" name="q1" value="b" <?= $this->input['q1'] == 'b' ? 'checked' : '' ?>>02101987<br>
         </label>
-        
+
         <label class="<?= $this->questionnaireFinished && $this->input['q1'] == 'c' ? 'incorrect' : '' ?>">
             <input type="radio" name="q1" value="c" <?= $this->input['q1'] == 'c' ? 'checked' : '' ?>>JmMouquet<br>
         </label>
@@ -71,10 +71,18 @@
         <?php if (isset($this->errors['q2'])): ?>
             <p class="error"><small><?= $this->errors['q2'] ?></small></p>
         <?php endif; ?>
-        <input type="radio" name="q2" value="a" <?= $this->input['q2'] == 'a' ? 'checked' : '' ?>>Écrire son mot de passe sur un post-it et le laisser sur son bureau.<br>
-        <input type="radio" name="q2" value="b" <?= $this->input['q2'] == 'b' ? 'checked' : '' ?>>Envoyer ses dossiers par mail au chef de projet.<br>
-        <input type="radio" name="q2" value="c" <?= $this->input['q2'] == 'c' ? 'checked' : '' ?>>Donner son mot de passe à un collègue de confiance.<br>
-        <input type="radio" name="q2" value="d" <?= $this->input['q2'] == 'd' ? 'checked' : '' ?>>Ne pas verrouiller son poste de travail.<br>
+        <label class="<?= $this->questionnaireFinished && $this->input['q2'] == 'a' ? 'incorrect' : '' ?>">
+            <input type="radio" name="q2" value="a" <?= $this->input['q2'] == 'a' ? 'checked' : '' ?>>Écrire son mot de passe sur un post-it et le laisser sur son bureau.<br>
+        </label>
+        <label class="<?= $this->questionnaireFinished ? 'correct' : '' ?>">
+            <input type="radio" name="q2" value="b" <?= $this->input['q2'] == 'b' ? 'checked' : '' ?>>Envoyer ses dossiers par mail au chef de projet.<br>
+        </label>
+        <label class="<?= $this->questionnaireFinished && $this->input['q2'] == 'c' ? 'incorrect' : '' ?>">
+            <input type="radio" name="q2" value="c" <?= $this->input['q2'] == 'c' ? 'checked' : '' ?>>Donner son mot de passe à un collègue de confiance.<br>
+        </label>
+        <label class="<?= $this->questionnaireFinished && $this->input['q2'] == 'd' ? 'incorrect' : '' ?>">
+            <input type="radio" name="q2" value="d" <?= $this->input['q2'] == 'd' ? 'checked' : '' ?>>Ne pas verrouiller son poste de travail.<br>
+        </label>
 
         <p class="question">3. Quel mot de passe est le plus important ?</p>
         <?php if (isset($this->errors['q3'])): ?>
@@ -89,10 +97,21 @@
         <?php if (isset($this->errors['q4'])): ?>
             <p class="error"><small><?= $this->errors['q4'] ?></small></p>
         <?php endif; ?>
-        <input type="radio" name="q4" value="a" <?= $this->input['q4'] == 'a' ? 'checked' : '' ?>><code>http://netfliix.com</code><br>
-        <input type="radio" name="q4" value="b" <?= $this->input['q4'] == 'b' ? 'checked' : '' ?>><code>http://net-flix.fr</code><br>
-        <input type="radio" name="q4" value="c" <?= $this->input['q4'] == 'c' ? 'checked' : '' ?>><code>https://netflix.com</code><br>
-        <input type="radio" name="q4" value="d" <?= $this->input['q4'] == 'd' ? 'checked' : '' ?>><code>https://netflx.com</code><br>
+        <label>
+            <input type="radio" name="q4" value="a" <?= $this->input['q4'] == 'a' ? 'checked' : '' ?>><code>http://netfliix.com</code><br>
+        </label>
+
+        <label>
+            <input type="radio" name="q4" value="b" <?= $this->input['q4'] == 'b' ? 'checked' : '' ?>><code>http://net-flix.fr</code><br>
+        </label>
+
+        <label class="<?= $this->questionnaireFinished ? 'correct' : '' ?>">
+            <input type="radio" name="q4" value="c" <?= $this->input['q4'] == 'c' ? 'checked' : '' ?>><code>https://netflix.com</code><br>
+        </label>
+
+        <label>
+            <input type="radio" name="q4" value="d" <?= $this->input['q4'] == 'd' ? 'checked' : '' ?>><code>https://netflx.com</code><br>
+        </label>
 
 
         <p class="question">5. J’ai reçu un mail m’indiquant un lien, dans le but de faire un don pour l’acteur Brad Pitt actuellement hospitalisé. Que dois-je faire ?</p>
@@ -153,10 +172,10 @@
         <?php if (isset($this->errors['q11'])): ?>
             <p class="error"><small><?= $this->errors['q11'] ?></small></p>
         <?php endif; ?>
-        <input type="radio" name="q11[]" value="a" <?= $this->input['q11'] == 'a' ? 'checked' : '' ?>>J’utilise un stockage de données professionnelles distinct du stockage de données personnelles.<br>
-        <input type="radio" name="q11[]" value="b" <?= $this->input['q11'] == 'b' ? 'checked' : '' ?>>J’utilise ma connexion professionnelle uniquement pour mes besoins professionnels.<br>
-        <input type="radio" name="q11[]" value="c" <?= $this->input['q11'] == 'c' ? 'checked' : '' ?>>J’utilise mon matériel professionnel pour des besoins personnels.<br>
-        <input type="radio" name="q11[]" value="d" <?= $this->input['q11'] == 'd' ? 'checked' : '' ?>>J’effectue les mises à jour de mes systèmes très régulièrement.<br>
+        <input type="checkbox" name="q11[]" value="a" <?= $this->input['q11'] == 'a' ? 'checked' : '' ?>>J’utilise un stockage de données professionnelles distinct du stockage de données personnelles.<br>
+        <input type="checkbox" name="q11[]" value="b" <?= $this->input['q11'] == 'b' ? 'checked' : '' ?>>J’utilise ma connexion professionnelle uniquement pour mes besoins professionnels.<br>
+        <input type="checkbox" name="q11[]" value="c" <?= $this->input['q11'] == 'c' ? 'checked' : '' ?>>J’utilise mon matériel professionnel pour des besoins personnels.<br>
+        <input type="checkbox" name="q11[]" value="d" <?= $this->input['q11'] == 'd' ? 'checked' : '' ?>>J’effectue les mises à jour de mes systèmes très régulièrement.<br>
 
 
         <input type="hidden" name="time" id="time">
