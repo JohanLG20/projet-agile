@@ -13,6 +13,8 @@ class Quizz
      */
     public array $errors = [];
 
+    public bool $questionnaireFinished = false;
+
     protected $nom = '';
     protected $prenom = '';
 
@@ -43,6 +45,8 @@ class Quizz
     protected int $score = 0;
 
     protected int $time = 0;
+
+
 
 
     public function __construct()
