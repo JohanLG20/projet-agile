@@ -11,36 +11,36 @@ class Quizz
      * ['q1' => 'message d'erreur',
      * 'q2' => 'message d'erreur',]
      */
-    public array $errors = [];
+    protected array $errors = [];
 
     protected $nom = '';
     protected $prenom = '';
 
     protected array $input = [
-        'q1' => null,
-        'q2' => null,
-        'q3' => null,
-        'q4' => null,
-        'q5' => null,
-        'q6' => null,
-        'q7' => null,
-        'q8' => null,
-        'q9' => null,
-        'q10' => null,
+        'q1' => [],
+        'q2' => [],
+        'q3' => [],
+        'q4' => [],
+        'q5' => [],
+        'q6' => [],
+        'q7' => [],
+        'q8' => [],
+        'q9' => [],
+        'q10' => [],
         'q11' => [],
     ];
     protected array $reponses = [
-        'q1' => 'd',
-        'q2' => 'b',
-        'q3' => 'c',
-        'q4' => 'c',
-        'q5' => 'd',
-        'q6' => 'b',
-        'q7' => 'b',
-        'q8' => 'b',
-        'q9' => 'c',
-        'q10' => 'b',
-        'q11' => ['a', 'b', 'd'],
+        'q1' => ['d', 1],
+        'q2' =>  ['b', 1],
+        'q3' =>  ['c', 1],
+        'q4' =>  ['c', 1],
+        'q5' =>  ['d', 1],
+        'q6' =>  ['b', 1],
+        'q7' =>  ['b', 1],
+        'q8' =>  ['b', 1],
+        'q9' =>  ['c', 1],
+        'q10' => ['b', 1],
+        'q11' => [['a', 'b', 'd'], 1],
     ];
     protected int $score = 0;
 
@@ -51,17 +51,17 @@ class Quizz
     public function __construct()
     {
 
-        /*
-         * Contrôle de qualité (trouve les erreurs et ajoute les messages dans le tableau $errors)
-         * Le nom des éléments du $_POST DOIT correspondre aux noms des propriétés respectives
-         */
+
         if (!empty($_POST)) {
             foreach ($_POST as $key => $post_element) {
-                if (is_array($post_element)) {  // Regarde si l'élément est un tableau pour obtenir les input sur les questions à choix multiples
+                // Regarde si l'élément est un tableau pour remplir les réponses utilisateur dans $input
+                if (is_array($post_element)) {
                     foreach ($post_element as $value) {
                         array_push($this->input[$key], htmlspecialchars($value));
                     };
-                } else {
+                }
+                // Sinon
+                else {
                     switch ($key) {
                         case 'time':
                             $this->time = intval(htmlspecialchars($_POST['time']));
@@ -73,14 +73,14 @@ class Quizz
                             $this->prenom = htmlspecialchars($post_element);
                             break;
                         default:
-                            $this->input[$key] = htmlspecialchars($post_element);
+                            array_push($this->input[$key], htmlspecialchars($post_element));
                     }
                 }
             }
 
-            echo var_dump($_POST['q11']) . '<br>';
-            var_dump($this->input);
-
+            /*
+             * Contrôle de qualité (trouve les erreurs et ajoute les messages dans le tableau $errors)
+             */
             if (!$this->nom) {
                 $this->errors['nom'] = "Requis";
             } else  if (strlen(trim($this->nom)) < 1) {
@@ -98,18 +98,24 @@ class Quizz
             }
 
             /*
+             * -- Test du questionnaire --
              * Boucle foreach qui teste chaque réponse utilisateur et la compare aux bonnes réponses
              */
             foreach ($this->input as $key => $value) {
-                if (!$value) {
+                // Si l'utilisateur n'a pas coché de réponse
+                if (empty($value[0])) {
                     $this->errors[$key] = "Requis";
-                } else if (is_array($this->reponses[$key])) {
-                    if (is_string($value)) { // si il n'y a qu'une seule réponse dans la question à choix multiple
+                } 
+                // Si la question correspondante a des réponses multiples
+                else if (is_array($this->reponses[$key])) {
+                    // si il n'y a qu'une seule réponse dans la question à choix multiple
+                    if (!isset($value[1])) { 
                         foreach ($this->reponses[$key] as $reponse) {
-                            if ($value == $reponse) {
+                            if ($value[0] == $reponse) {
                                 $this->score += 1;
                             };
                         }
+                    // Si il y a plusieurs réponses par l'utilisateur
                     } else {
                         foreach ($value as $choice) {
                             foreach ($this->reponses[$key] as $reponse) {
@@ -119,10 +125,11 @@ class Quizz
                             }
                         }
                     }
+                // Si la question correspondante a une réponse unique
                 } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
                     $this->errors[$key] = "Valeur incorrecte";
                 } else if ($value === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
-                    $this->score += 1;
+                    $this->score += $this->reponses[$key][1];
                 } else {   // Si la réponse est mauvaise, pénalise le score
                     $this->score -= 1;
                 }
