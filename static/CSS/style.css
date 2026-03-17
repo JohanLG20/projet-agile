@@ -96,6 +96,8 @@ tr:hover {
   color: red;
 }
 
-.incorrect {
+.error {
   color: red;
+  padding: 0;
+  margin: 0;
 }
