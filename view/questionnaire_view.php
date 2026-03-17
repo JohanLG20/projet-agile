@@ -241,7 +241,7 @@
         <label class="<?= $this->questionnaireFinished ? 'correct' : '' ?>">
             <input type="checkbox" name="q11[]" value="b" <?= $this->input['q11'] == 'b' ? 'checked' : '' ?>>J’utilise ma connexion professionnelle uniquement pour mes besoins professionnels.<br>
         </label>
-        <label class="<?= $this->questionnaireFinished && in_array('c', $this->input['q10']) ? 'incorrect' : '' ?>">
+        <label class="<?= $this->questionnaireFinished && in_array('c', $this->input['q11']) ? 'incorrect' : '' ?>">
             <input type="checkbox" name="q11[]" value="c" <?= $this->input['q11'] == 'c' ? 'checked' : '' ?>>J’utilise mon matériel professionnel pour des besoins personnels.<br>
         </label>
         <label class="<?= $this->questionnaireFinished ? 'correct' : '' ?>">
