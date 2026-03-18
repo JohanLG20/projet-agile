@@ -247,10 +247,12 @@
         <label class="<?= $this->questionnaireFinished ? 'correct' : '' ?>">
             <input type="checkbox" name="q11[]" value="d" <?= isset($this->input['q8'][0]) && in_array('d', $this->input['q11']) ? 'checked' : '' ?>>J’effectue les mises à jour de mes systèmes très régulièrement.<br>
         </label>
-
-
+        
         <input type="hidden" name="time" id="time">
-        <button type="submit">Envoyer</button>
+        
+        <?php if(!$this->questionnaireFinished): ?>
+            <button type="submit">Envoyer</button>
+        <?php endif; ?>
     </form>
 </body>
 <?php if (!$this->questionnaireFinished): ?>

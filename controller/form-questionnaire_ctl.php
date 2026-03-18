@@ -107,7 +107,7 @@ class Quizz
                     $this->errors[$key] = "Requis";
                     // Si la question correspondante a des réponses multiples
                 } else if (is_array($this->reponses[$key][0])) {
-                    foreach ($value[0] as $user_answer) {
+                    foreach ($value as $user_answer) {
                         foreach ($this->reponses[$key][0] as $reponse) {
                             if ($user_answer == $reponse) {
                                 // calcul score bonne réponse qcm
@@ -116,9 +116,9 @@ class Quizz
                             }
                         }
                     }
-                } else if (preg_match('/^[a-d]$/', $value) == 0) { // Teste que la valeur soit entre 'a' et 'd'
+                } else if (preg_match('/^[a-d]$/', $value[0]) == 0) { // Teste que la valeur soit entre 'a' et 'd'
                     $this->errors[$key] = "Valeur incorrecte";
-                } else if ($value[0] === $this->reponses[$key]) { // Si la réponse est bonne, incrémente le score
+                } else if ($value[0] === $this->reponses[$key][0]) { // Si la réponse est bonne, incrémente le score
                     $this->score += $this->reponses[$key][1];
                 } else {   // Si la réponse est mauvaise, pénalise le score
                     $this->score -= 1;
@@ -155,7 +155,7 @@ class Quizz
                 'resultat' => $this->score,
                 'temps' => $this->time,
             ];
-            DBResults::addResult($results);
+           // DBResults::addResult($results);
 
             $this->questionnaireFinished = true;
             require VIEW . '/questionnaire_view.php'; // affiche page succès
