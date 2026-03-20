@@ -6,4 +6,4 @@ define("CONTROLER", dirname(__DIR__) . "/controller");
 define("DB_HOST", "www.greta-bretagne-sud.org");
 define("DB_NAME", "tima6358_linda-hillairet");
 define("DB_USER", "tima6358_linda-hillairet");
-define("DB_PASSWORD", "HillairetL2025");
+define("DB_PASSWORD", "");
