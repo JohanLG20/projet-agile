@@ -155,7 +155,7 @@ class Quizz
                 'resultat' => $this->score,
                 'temps' => $this->time,
             ];
-            DBResults::addResult($results);
+           // DBResults::addResult($results);
 
             $this->questionnaireFinished = true;
             require VIEW . '/questionnaire_view.php'; // affiche page succès
